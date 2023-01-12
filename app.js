@@ -6,6 +6,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const quotesRouter = require('./routes/quotes');
 const renamerRouter = require('./routes/renamer')
+const notificationsRouter = require('./routes/notifications')
 
 let app = express();
 
@@ -18,5 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/quotes', quotesRouter);
 app.use('/rename', renamerRouter);
+app.use('/notifications', notificationsRouter);
 
 module.exports = app;
