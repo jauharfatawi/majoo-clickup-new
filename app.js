@@ -7,6 +7,7 @@ const indexRouter = require('./routes/index');
 const quotesRouter = require('./routes/quotes');
 const renamerRouter = require('./routes/renamer')
 const notificationsRouter = require('./routes/notifications')
+const synchronizerRouter = require('./routes/synchronizer')
 
 let app = express();
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter);
 app.use('/quotes', quotesRouter);
 app.use('/rename', renamerRouter);
 app.use('/notifications', notificationsRouter);
+app.use('/sync', synchronizerRouter);
 
 module.exports = app;

@@ -1,7 +1,5 @@
-const helper = require('../helper');
 const config = require('../config');
 const asyncFilter = require('../utils/filterAsync');
-const sleep = require('../utils/sleep');
 const axios = require('axios');
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
