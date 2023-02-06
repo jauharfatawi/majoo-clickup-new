@@ -2,21 +2,17 @@ const config = require('../config');
 const asyncFilter = require('../utils/filterAsync');
 const axios = require('axios');
 const moment = require('moment');
+const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-async function dateSync(task_id, type) {
+async function dateSync(payload, type) {
     try {
-        let pointer = task_id
-        let task = await axios({
-            method: "GET",
-            url: `https://api.clickup.com/api/v2/task/${pointer}`
-        });
-        task = task.data;
+        let task = payload;
         let due_date = moment.unix(task.due_date);
         let start_date = moment.unix(task.start_date);
-        pointer = (task.parent) ? task.parent : false
+        let pointer = (task.parent) ? task.parent : false
         while (pointer) {
             let parent = await axios({
                 method: "GET",
@@ -28,26 +24,70 @@ async function dateSync(task_id, type) {
                     start_date = moment.unix(parent.start_date)
                 }
                 if (start_date) {
-                    await axios({
-                        method: "PUT",
-                        url: `https://api.clickup.com/api/v2/task/${pointer}`,
+                    let cf_updated = await axios({
+                        method: "POST",
+                        url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
                         data: {
-                            "start_date": start_date.unix()
+                            "value": 1
                         }
                     });
+                    if (cf_updated) {
+                        let date_updated = await axios({
+                            method: "PUT",
+                            url: `https://api.clickup.com/api/v2/task/${pointer}`,
+                            data: {
+                                "start_date": start_date.unix()
+                            }
+                        });
+                        if (date_updated) {
+                            await axios({
+                                method: "POST",
+                                url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
+                                data: {
+                                    comment_text: '(PM BOT) Date changed because of start date change on https://app.clickup.com/t/' + task.id
+                                }
+                            });
+                        }
+                        await axios({
+                            method: "DELETE",
+                            url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
+                        });
+                    }
                 }
             } else {
                 if (parent.due_date && moment.unix(parent.due_date) > due_date) {
                     due_date = moment.unix(parent.due_date)
                 }
                 if (due_date) {
-                    await axios({
-                        method: "PUT",
-                        url: `https://api.clickup.com/api/v2/task/${pointer}`,
+                    let cf_updated = await axios({
+                        method: "POST",
+                        url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
                         data: {
-                            "due_date": due_date.unix()
+                            "value": 1
                         }
                     });
+                    if (cf_updated) {
+                        let date_updated = await axios({
+                            method: "PUT",
+                            url: `https://api.clickup.com/api/v2/task/${pointer}`,
+                            data: {
+                                "due_date": due_date.unix()
+                            }
+                        });
+                        if (date_updated) {
+                            await axios({
+                                method: "POST",
+                                url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
+                                data: {
+                                    comment_text: '(PM BOT) Date changed because of end date change on https://app.clickup.com/t/' + task.id
+                                }
+                            });
+                        }
+                        await axios({
+                            method: "DELETE",
+                            url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
+                        });
+                    }
                 }
             }
             pointer = parent.parent
