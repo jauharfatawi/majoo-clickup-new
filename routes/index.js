@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let config = require('../config')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.json({message: 'alive'});
+  res.json({
+    message: 'alive',
+    token: config.clickupToken
+  });
 });
 
 module.exports = router;
