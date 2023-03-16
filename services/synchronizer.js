@@ -12,7 +12,7 @@ async function dateSync(payload, type) {
         let task = payload;
         let due_date = moment.unix(task.due_date);
         let start_date = moment.unix(task.start_date);
-        let pointer = (task.parent) ? task.parent : false
+        let pointer = (task.parent) ? task.parent : false;
         while (pointer) {
             let parent = await axios({
                 method: "GET",
@@ -20,10 +20,13 @@ async function dateSync(payload, type) {
             });
             parent = parent.data
             if (type == "start-date") {
-                if (parent.start_date && moment.unix(parent.start_date) < start_date) {
-                    start_date = moment.unix(parent.start_date)
+                let parent_start_date = moment.unix(parent.start_date) || false;
+                let duration = (parent_start_date) ? moment.duration(parent_start_date.diff(start_date)).asDays() : false;
+
+                if (parent_start_date && parent_start_date < start_date) {
+                    start_date = parent_start_date
                 }
-                if (start_date) {
+                if (duration && duration !== 0) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
@@ -44,7 +47,7 @@ async function dateSync(payload, type) {
                                 method: "POST",
                                 url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
                                 data: {
-                                    comment_text: '(PM BOT) Date changed because of start date change on https://app.clickup.com/t/' + task.id
+                                    comment_text: '(BOT) Date changed because of start date change on https://app.clickup.com/t/' + task.id
                                 }
                             });
                         }
@@ -55,10 +58,13 @@ async function dateSync(payload, type) {
                     }
                 }
             } else {
-                if (parent.due_date && moment.unix(parent.due_date) > due_date) {
-                    due_date = moment.unix(parent.due_date)
+                let parent_due_date = moment.unix(parent.due_date) || false;
+                let duration = (parent_due_date) ? moment.duration(parent_due_date.diff(due_date)).asDays() : false;
+
+                if (parent_due_date && parent_due_date > due_date) {
+                    due_date = parent_due_date
                 }
-                if (due_date) {
+                if (duration && duration !== 0) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
@@ -79,7 +85,7 @@ async function dateSync(payload, type) {
                                 method: "POST",
                                 url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
                                 data: {
-                                    comment_text: '(PM BOT) Date changed because of end date change on https://app.clickup.com/t/' + task.id
+                                    comment_text: '(BOT) Date changed because of end date change on https://app.clickup.com/t/' + task.id
                                 }
                             });
                         }
