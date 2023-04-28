@@ -13,6 +13,11 @@ async function dateSync(payload, type) {
         let due_date = moment.unix(task.due_date) || false;
         let start_date = moment.unix(task.start_date) || false;
         let pointer = (task.parent) ? task.parent : false;
+        console.log("====== DEBUGGGG!!!!! =====")
+        console.log(`TASK == ${task}`)
+        console.log(`START DATE == ${start_date}`)
+        console.log(`DUE DATE == ${start_date}`)
+        console.log("====== DEBUGGGG!!!!! =====")
         while (pointer) {
             let parent = await axios({
                 method: "GET",
@@ -60,11 +65,13 @@ async function dateSync(payload, type) {
             } else {
                 let parent_due_date = moment.unix(parent.due_date) || false;
                 let duration = (parent_due_date) ? moment.duration(parent_due_date.diff(due_date)).asDays() : false;
-
+                // cek parent_due_date & task due_date mana yang lebih tua
                 if (parent_due_date && parent_due_date > due_date) {
                     due_date = parent_due_date
                 }
+                // cek apakah ada selisih durasi antara parent_due_date dan due_date
                 if (duration && duration !== 0 && due_date) {
+                    // update custom field webhook process
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
@@ -72,6 +79,7 @@ async function dateSync(payload, type) {
                             "value": 1
                         }
                     });
+                    // jika berhasil webhook process, maka update due date, comment, dan delete value custom field webhook process
                     if (cf_updated) {
                         let date_updated = await axios({
                             method: "PUT",
