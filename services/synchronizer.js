@@ -14,7 +14,7 @@ async function dateSync(payload, type) {
         let start_date = moment.unix(task.start_date) || false;
         let pointer = (task.parent) ? task.parent : false;
         console.log("====== DEBUGGGG!!!!! =====")
-        console.log(`TASK == ${task}`)
+        console.log(`TASK == ${JSON.stringify(task)}`)
         console.log(`START DATE == ${start_date}`)
         console.log(`DUE DATE == ${start_date}`)
         console.log("====== DEBUGGGG!!!!! =====")
@@ -31,7 +31,7 @@ async function dateSync(payload, type) {
                 if (parent_start_date && parent_start_date < start_date) {
                     start_date = parent_start_date
                 }
-                if (duration && duration !== 0 && start_date) {
+                if (duration && duration !== 0 && start_date.isAfter('1970-01-01', 'year') ) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
