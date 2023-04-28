@@ -31,7 +31,7 @@ async function dateSync(payload, type) {
                 if (parent_start_date && parent_start_date < start_date) {
                     start_date = parent_start_date
                 }
-                if (duration && duration !== 0 && start_date && start_date.unix() > 0) {
+                if (start_date && start_date.unix() > 0) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
