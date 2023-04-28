@@ -17,6 +17,8 @@ async function dateSync(payload, type) {
         console.log(`TASK == ${JSON.stringify(task)}`)
         console.log(`START DATE == ${start_date}`)
         console.log(`DUE DATE == ${start_date}`)
+        console.log(`START DATE == ${task.due_date}`)
+        console.log(`START DATE == ${task.start_date}`)
         console.log("====== DEBUGGGG!!!!! =====")
         while (pointer) {
             let parent = await axios({
