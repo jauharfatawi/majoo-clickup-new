@@ -10,15 +10,13 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 async function dateSync(payload, type) {
     try {
         let task = payload;
-        let due_date = (task.due_date !== null) ? moment.unix(task.due_date) : false;
-        let start_date = (task.start_date !== null) ? moment.unix(task.start_date) : false;
+        let due_date = (task.due_date !== null && task.due_date > 0) ? moment.unix(task.due_date) : false;
+        let start_date = (task.start_date !== null && task.start_date > 0) ? moment.unix(task.start_date) : false;
         let pointer = (task.parent) ? task.parent : false;
         console.log("====== DEBUGGGG!!!!! =====")
         console.log(`TASK == ${JSON.stringify(task)}`)
-        console.log(`START DATE == ${start_date}`)
-        console.log(`DUE DATE == ${start_date}`)
         console.log(`START DATE == ${task.due_date}`)
-        console.log(`START DATE == ${task.start_date}`)
+        console.log(`DUE DATE == ${task.start_date}`)
         console.log("====== DEBUGGGG!!!!! =====")
         while (pointer) {
             let parent = await axios({
