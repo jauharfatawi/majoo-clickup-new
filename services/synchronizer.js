@@ -10,8 +10,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 async function dateSync(payload, type) {
     try {
         let task = payload;
-        let due_date = moment.unix(task.due_date) || false;
-        let start_date = moment.unix(task.start_date) || false;
+        let due_date = (task.due_date !== null) ? moment.unix(task.due_date) : false;
+        let start_date = (task.start_date !== null) ? moment.unix(task.start_date) : false;
         let pointer = (task.parent) ? task.parent : false;
         console.log("====== DEBUGGGG!!!!! =====")
         console.log(`TASK == ${JSON.stringify(task)}`)
@@ -31,7 +31,7 @@ async function dateSync(payload, type) {
                 if (parent_start_date && parent_start_date < start_date) {
                     start_date = parent_start_date
                 }
-                if (duration && duration !== 0 && start_date.isAfter('1970-01-01', 'year') ) {
+                if (duration && duration !== 0 && start_date) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
