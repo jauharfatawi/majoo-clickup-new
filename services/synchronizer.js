@@ -31,7 +31,7 @@ async function dateSync(payload, type) {
                 if (parent_start_date && parent_start_date < start_date) {
                     start_date = parent_start_date
                 }
-                if (duration && duration !== 0 && start_date && start_date.unix() > 0  && task.start_date !== null && task.start_date > 0) {
+                if (duration && duration !== 0 && start_date && start_date.unix() > 0) {
                     let cf_updated = await axios({
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
@@ -70,7 +70,7 @@ async function dateSync(payload, type) {
                     due_date = parent_due_date
                 }
                 // cek apakah ada selisih durasi antara parent_due_date dan due_date
-                if (duration && duration !== 0 && due_date && due_date.unix() > 0 && task.due_date !== null && task.due_date > 0) {
+                if (duration && duration !== 0 && due_date && due_date.unix() > 0) {
                     // update custom field webhook process
                     let cf_updated = await axios({
                         method: "POST",
