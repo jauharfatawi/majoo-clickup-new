@@ -108,10 +108,10 @@ async function dateSync(payload, type) {
             let parent_start_date = moment.unix(parent.start_date) || false;
             let parent_due_date = moment.unix(parent.due_date) || false;
             
-            if (parent_due_date && parent_due_date > due_date) {
+            if (parent_due_date && parent_due_date > due_date && parent_due_date.unix() > 0) {
                 due_date = parent_due_date
             }
-            if (parent_start_date && parent_start_date < start_date) {
+            if (parent_start_date && parent_start_date < start_date && parent_start_date.unix() > 0) {
                 start_date = parent_start_date
             }
             // cek apakah ada selisih durasi antara parent_due_date dan due_date
@@ -139,7 +139,7 @@ async function dateSync(payload, type) {
                         method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
                         data: {
-                            comment_text: '(BOT) Date changed because of end date change on https://app.clickup.com/t/' + task.id
+                            comment_text: '(BOT) Date changed because of date change on https://app.clickup.com/t/' + task.id
                         }
                     });
                 }
