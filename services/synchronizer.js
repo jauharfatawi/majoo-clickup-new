@@ -1,7 +1,11 @@
-const config = require('../config');
-const asyncFilter = require('../utils/filterAsync');
 const axios = require('axios');
 const moment = require('moment');
+
+const config = require('../config');
+const asyncFilter = require('../utils/filterAsync');
+const mongo = require('./services/mongo');
+
+
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
@@ -81,17 +85,20 @@ async function dateSync(payload, type) {
 }
 
 async function relationSync(payload) {
+    let ideation_field_id = "4f9363bd-08fd-4f20-8cd9-814bb96453fc"
     try {
+        if (config.debug) mongo.insertLogs(req.payload);
+
         let task = payload;
         let due_date = moment.unix(task.due_date) || false;
         let start_date = moment.unix(task.start_date) || false;
-        let pointers;
-        task.custom_fields.forEach(item => {
-            if (item.id == "4f9363bd-08fd-4f20-8cd9-814bb96453fc") {
-                pointers = item.value;
-            }
+
+        let custom_fields = task.custom_fields;
+        let pointers = await asyncFilter(custom_fields, async (i) => {
+            return i.id == ideation_field_id;
         });
-        // let pointer = (task.custom_fields) ? task.parent : false;
+
+        if (pointers.length == 0) return 'OK';
 
         for (let pointer of pointers) {
             let parent = await axios({
@@ -145,7 +152,6 @@ async function relationSync(payload) {
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
                     });
                 }
-
             }
         }
 

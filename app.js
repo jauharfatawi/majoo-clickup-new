@@ -3,9 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const config = require('./config');
-const mongo = require('./services/mongo');
-
 const indexRouter = require('./routes/index');
 const quotesRouter = require('./routes/quotes');
 const renamerRouter = require('./routes/renamer')
@@ -20,11 +17,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-router.use((req, _res, next) => {
-    if (config.debug) mongo.insertLogs(req.payload);
-    next()
-})
 
 app.use('/', indexRouter);
 app.use('/quotes', quotesRouter);
