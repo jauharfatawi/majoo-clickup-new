@@ -153,7 +153,6 @@ async function relationSync(payload) {
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
         console.log(error)
-        console.log(JSON.stringify(payload.custom_fields))
         console.log("====== End Err ClickUp =====")
     }
 }
