@@ -96,7 +96,7 @@ async function relationSync(payload) {
         for (let pointer of pointers) {
             let parent = await axios({
                 method: "GET",
-                url: `https://api.clickup.com/api/v2/task/${pointer}`
+                url: `https://api.clickup.com/api/v2/task/${pointer.id}`
             });
             parent = parent.data
 
