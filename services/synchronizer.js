@@ -76,6 +76,7 @@ async function dateSync(payload, type) {
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
         console.log(error)
+        console.log(payload)
         console.log("====== End Err ClickUp =====")
     }
 }
