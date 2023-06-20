@@ -76,7 +76,6 @@ async function dateSync(payload, type) {
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
         console.log(error)
-        console.log(payload)
         console.log("====== End Err ClickUp =====")
     }
 }
@@ -154,6 +153,7 @@ async function relationSync(payload) {
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
         console.log(error)
+        console.log(JSON.stringify(payload))
         console.log("====== End Err ClickUp =====")
     }
 }
