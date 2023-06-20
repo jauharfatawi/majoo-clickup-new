@@ -3,7 +3,7 @@ const moment = require('moment');
 
 const config = require('../config');
 const asyncFilter = require('../utils/filterAsync');
-const mongo = require('./services/mongo');
+const mongo = require('./mongo');
 
 
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
