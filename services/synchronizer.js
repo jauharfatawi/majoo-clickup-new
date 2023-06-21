@@ -18,13 +18,14 @@ async function dateSync(payload, type) {
         let due_date = moment.unix(task.due_date) || false;
         let start_date = moment.unix(task.start_date) || false;
         let pointer = (task.parent) ? task.parent : false;
+        let duration = parseInt(moment.duration(due_date.diff(start_date)).asDays());
 
         // tambahkan fungsi hitung mandays ketika ada trigger ubah mandays
         await axios({
             method: "POST",
             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${mandays_cf_id}`,
             data: {
-                "value": (moment.duration(due_date.diff(start_date)).asDays() / 1000)
+                "value": ( duration / 1000)
                 
             }
         });
