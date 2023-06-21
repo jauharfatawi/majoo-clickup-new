@@ -85,7 +85,7 @@ async function dateSync(payload, type) {
 }
 
 async function relationSync(payload) {
-    if (config.debug) mongo.insertLogs(payload);
+    // if (config.debug) mongo.insertLogs(payload);
     let ideation_field_id = "4f9363bd-08fd-4f20-8cd9-814bb96453fc"
     try {
         let task = payload;
