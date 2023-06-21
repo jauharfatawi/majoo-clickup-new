@@ -7,6 +7,7 @@ const mongo = require('./mongo');
 
 
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
+const mandays_cf_id = "49bcb816-b264-430f-bf51-6cc390787234"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -17,6 +18,15 @@ async function dateSync(payload, type) {
         let due_date = moment.unix(task.due_date) || false;
         let start_date = moment.unix(task.start_date) || false;
         let pointer = (task.parent) ? task.parent : false;
+
+        // tambahkan fungsi hitung mandays ketika ada trigger ubah mandays
+        await axios({
+            method: "POST",
+            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${mandays_cf_id}`,
+            data: {
+                "value": due_date.diff(start_date, 'days')
+            }
+        });
        
         while (pointer) {
             let parent = await axios({
@@ -70,7 +80,6 @@ async function dateSync(payload, type) {
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
                     });
                 }
-                
             }
             
             pointer = parent.parent
