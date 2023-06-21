@@ -69,17 +69,13 @@ async function dateSync(payload, type) {
                         data: date_payload
                     });
                     if (date_updated) {
-                        let temp_start_date = moment(date_updated.data.start_date) || false;
-                        let temp_due_date = moment(date_updated.data.due_date) || false;
-                        if (temp_due_date && temp_start_date) {
-                            await axios({
-                                method: "POST",
-                                url: `https://api.clickup.com/api/v2/task/${pointer}/field/${mandays_cf_id}`,
-                                data: {
-                                    "value": parseInt(moment.duration(temp_due_date).diff(temp_start_date).asDays())
-                                }
-                            });    
-                        }
+                        await axios({
+                            method: "POST",
+                            url: `https://api.clickup.com/api/v2/task/${pointer}/field/${mandays_cf_id}`,
+                            data: {
+                                "value": moment.duration(moment(date_updated.data.due_date)).diff(moment(date_updated.data.start_date)).asDays()
+                            }
+                        });    
                         await axios({
                             method: "POST",
                             url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
