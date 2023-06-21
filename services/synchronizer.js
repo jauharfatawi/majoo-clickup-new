@@ -69,6 +69,14 @@ async function dateSync(payload, type) {
                         data: date_payload
                     });
                     if (date_updated) {
+                        duration = parseInt(moment.duration(date_payload.due_date.diff(date_payload.start_date)).asDays());
+                        await axios({
+                            method: "POST",
+                            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${mandays_cf_id}`,
+                            data: {
+                                "value": (duration / 1000)
+                            }
+                        });
                         await axios({
                             method: "POST",
                             url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
