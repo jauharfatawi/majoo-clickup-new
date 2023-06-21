@@ -85,10 +85,9 @@ async function dateSync(payload, type) {
 }
 
 async function relationSync(payload) {
+    if (config.debug) mongo.insertLogs(payload);
     let ideation_field_id = "4f9363bd-08fd-4f20-8cd9-814bb96453fc"
     try {
-        if (config.debug) mongo.insertLogs(payload);
-
         let task = payload;
         let due_date = moment.unix(task.due_date) || false;
         let start_date = moment.unix(task.start_date) || false;
@@ -98,9 +97,9 @@ async function relationSync(payload) {
             return i.id == ideation_field_id;
         });
 
-        if (pointers.length == 0) return 'OK';
+        if (pointers.value.length == 0) return 'OK';
 
-        for (let pointer of pointers) {
+        for (let pointer of pointers.value) {
             let parent = await axios({
                 method: "GET",
                 url: `https://api.clickup.com/api/v2/task/${pointer.id}`
