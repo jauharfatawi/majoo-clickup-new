@@ -76,7 +76,7 @@ async function dateSync(payload, type) {
                                 method: "POST",
                                 url: `https://api.clickup.com/api/v2/task/${pointer}/field/${mandays_cf_id}`,
                                 data: {
-                                    "value": parseInt(moment.duration(temp_due_date).diff(temp_start_date)).asDays()
+                                    "value": parseInt(moment.duration(temp_due_date).diff(temp_start_date).asDays())
                                 }
                             });    
                         }
