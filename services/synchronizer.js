@@ -97,7 +97,7 @@ async function relationSync(payload) {
             return i.id == ideation_field_id;
         });
 
-        if (pointers.value.length == 0) return 'OK';
+        if (typeof pointers.value == 'undefined') return 'OK';        
 
         for (let pointer of pointers.value) {
             let parent = await axios({
