@@ -21,14 +21,14 @@ async function dateSync(payload, type) {
         let duration = parseInt(moment.duration(due_date.diff(start_date)).asDays());
 
         // tambahkan fungsi hitung mandays ketika ada trigger ubah mandays
-        await axios({
-            method: "POST",
-            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${mandays_cf_id}`,
-            data: {
-                "value": ( duration / 1000)
+        // await axios({
+        //     method: "POST",
+        //     url: `https://api.clickup.com/api/v2/task/${task.id}/field/${mandays_cf_id}`,
+        //     data: {
+        //         "value": ( duration / 1000)
                 
-            }
-        });
+        //     }
+        // });
 
         while (pointer) {
             let parent = await axios({
