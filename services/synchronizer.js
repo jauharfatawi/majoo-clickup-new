@@ -68,22 +68,22 @@ async function dateSync(payload, type) {
                         url: `https://api.clickup.com/api/v2/task/${pointer}`,
                         data: date_payload
                     });
-                    if (date_updated) {
-                        // await axios({
-                        //     method: "POST",
-                        //     url: `https://api.clickup.com/api/v2/task/${pointer}/field/${mandays_cf_id}`,
-                        //     data: {
-                        //         "value": moment.duration(moment(date_updated.data.due_date)).diff(moment(date_updated.data.start_date)).asDays()
-                        //     }
-                        // });    
-                        await axios({
-                            method: "POST",
-                            url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
-                            data: {
-                                comment_text: '(BOT) Date changed because of date change on https://app.clickup.com/t/' + task.id
-                            }
-                        });
-                    }
+                    // if (date_updated) {
+                    //     await axios({
+                    //         method: "POST",
+                    //          url: `https://api.clickup.com/api/v2/task/${pointer}/field/${mandays_cf_id}`,
+                    //          data: {
+                    //              "value": moment.duration(moment(date_updated.data.due_date)).diff(moment(date_updated.data.start_date)).asDays()
+                    //          }
+                    //      });    
+                    //     await axios({
+                    //         method: "POST",
+                    //         url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
+                    //         data: {
+                    //             comment_text: '(BOT) Date changed because of date change on https://app.clickup.com/t/' + task.id
+                    //         }
+                    //     });
+                    // }
                     await axios({
                         method: "DELETE",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
@@ -155,15 +155,15 @@ async function relationSync(payload) {
                         url: `https://api.clickup.com/api/v2/task/${pointer}`,
                         data: date_payload
                     });
-                    if (date_updated) {
-                        await axios({
-                            method: "POST",
-                            url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
-                            data: {
-                                comment_text: '(BOT) Date changed because of date change on https://app.clickup.com/t/' + task.id
-                            }
-                        });
-                    }
+                    // if (date_updated) {
+                    //     await axios({
+                    //         method: "POST",
+                    //         url: `https://api.clickup.com/api/v2/task/${pointer}/comment`,
+                    //         data: {
+                    //             comment_text: '(BOT) Date changed because of date change on https://app.clickup.com/t/' + task.id
+                    //         }
+                    //     });
+                    // }
                     await axios({
                         method: "DELETE",
                         url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`
