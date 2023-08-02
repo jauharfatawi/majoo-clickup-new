@@ -1,4 +1,4 @@
-const axios = require('axios');
+  const axios = require('axios');
 const moment = require('moment');
 
 const config = require('../config');
@@ -8,6 +8,7 @@ const mongo = require('./mongo');
 
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 const mandays_cf_id = "49bcb816-b264-430f-bf51-6cc390787234"
+const feedback_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -172,7 +173,29 @@ async function relationSync(payload) {
     }
 }
 
+// untuk menambahkan counter pada custom field FEEDBACK LOOP COUNTER saat perubahan status dari QA Test ke Rejected by QA
+async function counterFeedback(payload) {
+    try {
+        let task = payload
+        let counter = task.custom_fields[1].value;
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
+                data: {
+                    "value": counter+1
+                }
+            });
+
+        return 'OK'
+    } catch (error) {
+        console.log("====== Start Err ClickUp =====")
+        console.log(error)
+        console.log("====== End Err ClickUp =====")
+    }
+}
+
 module.exports = {
     dateSync,
-    relationSync
+    relationSync,
+    counterFeedback
 }
