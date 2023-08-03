@@ -191,7 +191,7 @@ async function counterFeedback(payload) {
             method: "POST",
             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
             data: {
-                "value": counter+1
+                "value": parseInt(counter)+1
             }
         });
         
