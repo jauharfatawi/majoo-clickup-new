@@ -185,15 +185,20 @@ async function relationSync(payload) {
 async function counterFeedback(payload) {
     try {
         let task = payload
-        let counter = task.custom_fields[1].value;
-            await axios({
-                method: "POST",
-                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
-                data: {
-                    "value": counter+1
-                }
-            });
+        let counter = task.custom_fields[1].value ? task.custom_fields[1].value : 0;
 
+        if(task.custom_fields[1].value){
+            counter = 0
+        }
+        
+        await axios({
+            method: "POST",
+            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
+            data: {
+                "value": counter+1
+            }
+        });
+        
         return 'OK'
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
