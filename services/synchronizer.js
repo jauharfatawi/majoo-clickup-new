@@ -186,10 +186,6 @@ async function counterFeedback(payload) {
     try {
         let task = payload
         let counter = task.custom_fields[1].value ? task.custom_fields[1].value : 0;
-
-        if(task.custom_fields[1].value){
-            counter = 0
-        }
         
         await axios({
             method: "POST",
