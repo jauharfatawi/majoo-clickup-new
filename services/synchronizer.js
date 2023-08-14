@@ -8,7 +8,8 @@ const mongo = require('./mongo');
 
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 const mandays_cf_id = "49bcb816-b264-430f-bf51-6cc390787234"
-const feedback_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
+const feedback_stg_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
+const feedback_prod_cf_id = "ce85b095-d027-4215-a936-778387e0c2f0"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -181,15 +182,37 @@ async function relationSync(payload) {
     }
 }
 
-// untuk menambahkan counter pada custom field FEEDBACK LOOP COUNTER saat perubahan status dari QA Test ke Rejected by QA
-async function counterFeedback(payload) {
+// untuk menambahkan counter pada custom field COUNTER FEEDBACK STAGING saat perubahan status dari QA Test Staging ke Rejected by QA Staging
+async function counterFeedbackStaging(payload) {
     try {
         let task = payload
         let counter = task.custom_fields[1].value ? task.custom_fields[1].value : 0;
         
         await axios({
             method: "POST",
-            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
+            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_stg_cf_id}`,
+            data: {
+                "value": parseInt(counter)+1
+            }
+        });
+        
+        return 'OK'
+    } catch (error) {
+        console.log("====== Start Err ClickUp =====")
+        console.log(error)
+        console.log("====== End Err ClickUp =====")
+    }
+}
+
+// untuk menambahkan counter pada custom field COUNTER FEEDBACK PROD saat perubahan status dari QA Test Prod ke Rejected by QA Prod
+async function counterFeedbackProd(payload) {
+    try {
+        let task = payload
+        let counter = task.custom_fields[2].value ? task.custom_fields[2].value : 0;
+        
+        await axios({
+            method: "POST",
+            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_prod_cf_id}`,
             data: {
                 "value": parseInt(counter)+1
             }
@@ -206,5 +229,6 @@ async function counterFeedback(payload) {
 module.exports = {
     dateSync,
     relationSync,
-    counterFeedback
+    counterFeedbackStaging,
+    counterFeedbackProd
 }
