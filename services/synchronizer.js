@@ -8,7 +8,7 @@ const mongo = require('./mongo');
 
 const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 const mandays_cf_id = "49bcb816-b264-430f-bf51-6cc390787234"
-const feedback_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
+const feedback_stg_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -181,7 +181,7 @@ async function relationSync(payload) {
     }
 }
 
-// untuk menambahkan counter pada custom field FEEDBACK LOOP COUNTER saat perubahan status dari QA Test ke Rejected by QA
+// untuk menambahkan counter pada custom field COUNTER FEEDBACK STAGING saat perubahan status dari QA Test Staging ke Rejected by QA Staging
 async function counterFeedback(payload) {
     try {
         let task = payload
@@ -189,7 +189,7 @@ async function counterFeedback(payload) {
         
         await axios({
             method: "POST",
-            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_cf_id}`,
+            url: `https://api.clickup.com/api/v2/task/${task.id}/field/${feedback_stg_cf_id}`,
             data: {
                 "value": parseInt(counter)+1
             }
