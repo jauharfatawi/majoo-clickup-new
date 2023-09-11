@@ -10,6 +10,9 @@ const webhook_cf_id = "d9e9bae7-cb1d-4a75-bacb-900a5f2a131c"
 const mandays_cf_id = "49bcb816-b264-430f-bf51-6cc390787234"
 const feedback_stg_cf_id = "b04b9446-4f56-47cd-ada0-2e379268fe40"
 const feedback_prod_cf_id = "ce85b095-d027-4215-a936-778387e0c2f0"
+const epic_release_cf_id = "dccb4f61-d762-4403-b560-b452216e34d2"
+const reviewer_cf_id = "68dfad2d-8ec7-4d52-a406-9e849f0cbe2b"
+const pm_cf_id = "bfd922ae-695a-41c1-9af7-e55ea38b8252"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
