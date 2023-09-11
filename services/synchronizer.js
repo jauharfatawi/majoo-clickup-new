@@ -269,7 +269,7 @@ async function subtaskSync(payload) {
                     method: "POST",
                     url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
                     data: {
-                        "value": parent_reviewer
+                        "value": reviewer
                     }
                 });
             }
@@ -280,7 +280,7 @@ async function subtaskSync(payload) {
                     method: "POST",
                     url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
                     data: {
-                        "value": parent_pm
+                        "value": pm
                     }
                 });
             }
