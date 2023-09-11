@@ -250,7 +250,7 @@ async function subtaskSync(payload) {
         let parent_reviewer = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
         let parent_pm = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
         
-            if (parent_epic_release && isEmpty(epic_release)) {
+            if (parent_epic_release) {
                     epic_release = parent_epic_release
                     
                 await axios({
@@ -262,7 +262,7 @@ async function subtaskSync(payload) {
                 });
             }
         
-            if (parent_reviewer && isEmpty(reviewer)) {
+            if (parent_reviewer) {
                 reviewer = parent_reviewer
 
                 await axios({
@@ -274,7 +274,7 @@ async function subtaskSync(payload) {
                 });
             }
 
-            if (parent_pm && isEmpty(pm)) {
+            if (parent_pm) {
                 pm = parent_pm
                 await axios({
                     method: "POST",
