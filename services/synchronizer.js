@@ -267,7 +267,7 @@ async function subtaskSync(payload) {
             }
         
             if (parent_reviewer) {
-                reviewer = parent_reviewer[0].id
+                reviewer = parent_reviewer
 
                 await axios({
                     method: "POST",
@@ -279,7 +279,7 @@ async function subtaskSync(payload) {
             }
 
             if (parent_pm) {
-                pm = parent_pm[0].id
+                pm = parent_pm
                 
                 await axios({
                     method: "POST",
