@@ -226,9 +226,75 @@ async function counterFeedbackProd(payload) {
     }
 }
 
+
+// untuk EPIC RELEASE, REVIEWER & PM ketika buat subtask
+async function subtaskSync(payload) {
+    try {
+        let task = payload
+        let epic_release = task.custom_fields[0].value ? task.custom_fields[0].value : false;
+        let reviewer = task.custom_fields[3].value ? task.custom_fields[3].value : false;
+        let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
+        
+        let pointer = (task.parent) ? task.parent : false;
+
+        let parent = await axios({
+                method: "GET",
+                url: `https://api.clickup.com/api/v2/task/${pointer}`
+        });
+        parent = parent.data
+            
+        let parent_epic_release = parent.custom_fields[0].value ? parent.custom_fields[0].value : false;
+        let parent_reviewer = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
+        let parent_pm = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
+        
+            if (parent_epic_release && isEmpty(epic_release)) {
+                    epic_release = parent_epic_release
+                    
+                await axios({
+                    method: "POST",
+                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${epic_release_cf_id}`,
+                    data: {
+                        "value": epic_release
+                    }
+                });
+            }
+        
+            if (parent_reviewer && isEmpty(reviewer)) {
+                reviewer = parent_reviewer
+
+                await axios({
+                    method: "POST",
+                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
+                    data: {
+                        "value": parent_reviewer
+                    }
+                });
+            }
+
+            if (parent_pm && isEmpty(pm)) {
+                pm = parent_pm
+                await axios({
+                    method: "POST",
+                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
+                    data: {
+                        "value": parent_pm
+                    }
+                });
+            }
+        }
+        
+        return 'OK'
+    } catch (error) {
+        console.log("====== Start Err ClickUp =====")
+        console.log(error)
+        console.log("====== End Err ClickUp =====")
+    }
+}
+
 module.exports = {
     dateSync,
     relationSync,
     counterFeedbackStaging,
-    counterFeedbackProd
+    counterFeedbackProd,
+    subtaskSync
 }
