@@ -284,8 +284,6 @@ async function subtaskSync(payload) {
                     }
                 });
             }
-        }
-        
         return 'OK'
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
