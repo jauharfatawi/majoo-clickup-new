@@ -248,7 +248,7 @@ async function subtaskSync(payload) {
             
         let parent_epic_release = parent.custom_fields[0].value ? parent.custom_fields[0].value : false;
         let parent_reviewer = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
-        let parent_pm = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
+        let parent_pm = parent.custom_fields[4].value ? parent.custom_fields[4].value : false;
         
             if (parent_epic_release) {
                     epic_release = parent_epic_release
@@ -276,6 +276,7 @@ async function subtaskSync(payload) {
 
             if (parent_pm) {
                 pm = parent_pm
+                
                 await axios({
                     method: "POST",
                     url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
