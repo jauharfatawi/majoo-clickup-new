@@ -251,8 +251,8 @@ async function subtaskSync(payload) {
         let parent_pm = parent.custom_fields[4].value ? parent.custom_fields[4].value : false;
         
         console.log(parent_epic_release);
-        console.log(parent_reviewer.id);
-        console.log(parent_pm.id);
+        console.log(parent_reviewer[0].id);
+        console.log(parent_pm[0].id);
         
             if (parent_epic_release) {
                     epic_release = parent_epic_release
@@ -267,7 +267,7 @@ async function subtaskSync(payload) {
             }
         
             if (parent_reviewer) {
-                reviewer = parent_reviewer.id
+                reviewer = parent_reviewer[0].id
 
                 await axios({
                     method: "POST",
@@ -279,7 +279,7 @@ async function subtaskSync(payload) {
             }
 
             if (parent_pm) {
-                pm = parent_pm.id
+                pm = parent_pm[0].id
                 
                 await axios({
                     method: "POST",
