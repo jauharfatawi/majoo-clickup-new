@@ -236,11 +236,11 @@ async function counterFeedbackProd(payload) {
 async function subtaskSync(payload) {
     try {
         let task = payload
-        let epic_release = task.custom_fields[51] ? task.custom_fields[51] : false;
+        let epic_release = task.custom_fields[51].value ? task.custom_fields[51].value : false;
         let reviewer = task.custom_fields[64].value ? task.custom_fields[64].value : false;
         let pm = task.custom_fields[71].value ? task.custom_fields[71].value : false;
-        let theme = task.custom_fields[57] ? task.custom_fields[57] : false;
-        let quarter = task.custom_fields[66] ? task.custom_fields[66] : false;
+        let theme = task.custom_fields[57].value ? task.custom_fields[57].value : false;
+        let quarter = task.custom_fields[66].value ? task.custom_fields[66].value : false;
         
         
         // console.log(task.custom_fields[51])
@@ -263,17 +263,20 @@ async function subtaskSync(payload) {
         });
         parent = parent.data
             
-        let parent_epic_release = parent.custom_fields[51] ? parent.custom_fields[51] : false;
+        let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
         let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
         let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
-        let parent_quarter = parent.custom_fields[66] ? parent.custom_fields[66] : false;
-        let parent_theme = parent.custom_fields[57] ? parent.custom_fields[57] : false;
+        let selected_parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
+        let parent_theme = parent.custom_fields[57].type_config.options[selected_parent_theme] ? parent.custom_fields[57].type_config.options[selected_parent_theme] : false;
+        let selected_parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
+        let parent_quarter = parent.custom_fields[66].type_config.options[selected_parent_quarter] ? parent.custom_fields[66].type_config.options[selected_parent_quarter] : false;
+        
         
         console.log(parent_epic_release)
         console.log(parent_reviewer[0].id)
         console.log(parent_pm[0].id)
-        console.log(parent_quarter)
-        console.log(parent_theme)
+        console.log(parent_quarter.id)
+        console.log(parent_theme.id)
         
         
             if (parent_epic_release) {
@@ -319,7 +322,7 @@ async function subtaskSync(payload) {
                     method: "POST",
                     url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
                     data: {
-                        "value": theme
+                        "value": theme.id
                     }
                 });
             }
@@ -331,7 +334,7 @@ async function subtaskSync(payload) {
                     method: "POST",
                         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
                     data: {
-                        "value": quarter
+                        "value": quarter.id
                     }
                 });
             }
