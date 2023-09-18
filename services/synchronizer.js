@@ -234,9 +234,9 @@ async function counterFeedbackProd(payload) {
 async function subtaskSync(payload) {
     try {
         let task = payload
-        let epic_release = task.custom_fields[${epic_release_cf_id}].value ? task.custom_fields[${epic_release_cf_id}].value : false;
-        let reviewer = task.custom_fields[${reviewer_cf_id}].value ? task.custom_fields[${reviewer_cf_id}].value : false;
-        let pm = task.custom_fields[${pm_cf_id}].value ? task.custom_fields[${pm_cf_id}].value : false;
+        let epic_release = task.custom_fields[0].value ? task.custom_fields[0].value : false;
+        let reviewer = task.custom_fields[3].value ? task.custom_fields[3].value : false;
+        let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
         
         let pointer = (task.parent) ? task.parent : false;
 
