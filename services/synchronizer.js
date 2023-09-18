@@ -240,7 +240,7 @@ async function subtaskSync(payload) {
         
         
         console.log(task.custom_fields.indexOf({
-            id : ${epic_release_cf_id}
+            id : `${epic_release_cf_id}`
         }))
         // console.log(parent_reviewer[0].id)
         // console.log(parent_pm[0].id)
