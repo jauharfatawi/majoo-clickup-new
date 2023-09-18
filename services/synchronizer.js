@@ -239,9 +239,14 @@ async function subtaskSync(payload) {
         let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
         
         
-        console.log(epic_release)
-        console.log(reviewer[0])
-        console.log(pm[0])
+        console.log(task.custom_fields[0])
+        console.log(task.custom_fields[3])
+        console.log(task.custom_fields[4])
+
+        
+        console.log(task.custom_fields[8])
+        console.log(task.custom_fields[16])
+        console.log(task.custom_fields[17])
         
         
         let pointer = (task.parent) ? task.parent : false;
