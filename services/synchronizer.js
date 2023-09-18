@@ -13,6 +13,8 @@ const feedback_prod_cf_id = "ce85b095-d027-4215-a936-778387e0c2f0"
 const epic_release_cf_id = "dccb4f61-d762-4403-b560-b452216e34d2"
 const reviewer_cf_id = "68dfad2d-8ec7-4d52-a406-9e849f0cbe2b"
 const pm_cf_id = "bfd922ae-695a-41c1-9af7-e55ea38b8252"
+const theme_cf_id = "1aa8337-49a5-4ba8-986e-409b46049e4e"
+const quarter_cf_id = "ecb1c819-265d-42bb-918b-bc73d7df93c6"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -234,9 +236,11 @@ async function counterFeedbackProd(payload) {
 async function subtaskSync(payload) {
     try {
         let task = payload
-        let epic_release = task.custom_fields[0].value ? task.custom_fields[0].value : false;
-        let reviewer = task.custom_fields[3].value ? task.custom_fields[3].value : false;
-        let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
+        let epic_release = task.custom_fields[51].value ? task.custom_fields[51].value : false;
+        let theme = task.custom_fields[57].value ? task.custom_fields[57].value : false;
+        let reviewer = task.custom_fields[64].value ? task.custom_fields[64].value : false;
+        let quarter = task.custom_fields[66].value ? task.custom_fields[66].value : false;
+        let pm = task.custom_fields[71].value ? task.custom_fields[71].value : false;
         
         
         // console.log(task.custom_fields[0])
@@ -244,9 +248,18 @@ async function subtaskSync(payload) {
         // console.log(task.custom_fields[4])
 
         
-        console.log(task.custom_fields[8])
-        console.log(task.custom_fields[16])
-        console.log(task.custom_fields[17])
+        console.log(task.custom_fields[51])
+        console.log(task.custom_fields[57])
+        console.log(task.custom_fields[64])
+        console.log(task.custom_fields[66])
+        console.log(task.custom_fields[71])
+
+        console.log(epic_release)
+        console.log(theme)
+        console.log(reviewer)
+        console.log(quarter)
+        console.log(pm)
+        
         
         
         let pointer = (task.parent) ? task.parent : false;
@@ -257,13 +270,17 @@ async function subtaskSync(payload) {
         });
         parent = parent.data
             
-        let parent_epic_release = parent.custom_fields[0].value ? parent.custom_fields[0].value : false;
-        let parent_reviewer = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
-        let parent_pm = parent.custom_fields[4].value ? parent.custom_fields[4].value : false;
+        let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
+        let parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
+        let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
+        let parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
+        let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
         
-        // console.log(parent_epic_release)
-        // console.log(parent_reviewer[0].id)
-        // console.log(parent_pm[0].id)
+        console.log(parent_epic_release)
+        console.log(parent_theme)
+        console.log(parent_reviewer[0].id)
+        console.log(parent_quarter)
+        console.log(parent_pm[0].id)
         
             if (parent_epic_release) {
                     epic_release = parent_epic_release
@@ -300,6 +317,31 @@ async function subtaskSync(payload) {
                     }
                 });
             }
+
+            if (parent_theme) {
+                theme = parent_theme
+                
+                await axios({
+                    method: "POST",
+                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
+                    data: {
+                        "value": theme
+                    }
+                });
+            }
+        
+            if (parent_quarter) {
+                quarter = parent_quarter
+                
+                await axios({
+                    method: "POST",
+                        url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+                    data: {
+                        "value": quarter
+                    }
+                });
+            }
+        
         return 'OK'
     } catch (error) {
         console.log("====== Start Err ClickUp =====")
