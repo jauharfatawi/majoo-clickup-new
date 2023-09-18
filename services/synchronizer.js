@@ -238,6 +238,14 @@ async function subtaskSync(payload) {
         let reviewer = task.custom_fields[3].value ? task.custom_fields[3].value : false;
         let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
         
+        
+        console.log(task.custom_fields.indexOf({
+            id : ${epic_release_cf_id}
+        }))
+        // console.log(parent_reviewer[0].id)
+        // console.log(parent_pm[0].id)
+        
+        
         let pointer = (task.parent) ? task.parent : false;
 
         let parent = await axios({
@@ -250,9 +258,9 @@ async function subtaskSync(payload) {
         let parent_reviewer = parent.custom_fields[3].value ? parent.custom_fields[3].value : false;
         let parent_pm = parent.custom_fields[4].value ? parent.custom_fields[4].value : false;
         
-        console.log(parent_epic_release)
-        console.log(parent_reviewer[0].id)
-        console.log(parent_pm[0].id)
+        // console.log(parent_epic_release)
+        // console.log(parent_reviewer[0].id)
+        // console.log(parent_pm[0].id)
         
             if (parent_epic_release) {
                     epic_release = parent_epic_release
