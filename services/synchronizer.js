@@ -13,7 +13,7 @@ const feedback_prod_cf_id = "ce85b095-d027-4215-a936-778387e0c2f0"
 const epic_release_cf_id = "dccb4f61-d762-4403-b560-b452216e34d2"
 const reviewer_cf_id = "68dfad2d-8ec7-4d52-a406-9e849f0cbe2b"
 const pm_cf_id = "bfd922ae-695a-41c1-9af7-e55ea38b8252"
-const theme_cf_id = "1aa8337-49a5-4ba8-986e-409b46049e4e"
+const theme_cf_id = "71aa8337-49a5-4ba8-986e-409b46049e4e"
 const quarter_cf_id = "ecb1c819-265d-42bb-918b-bc73d7df93c6"
 
 axios.defaults.headers.common['Authorization'] = config.clickupToken;
