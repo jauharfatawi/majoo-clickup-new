@@ -239,12 +239,9 @@ async function subtaskSync(payload) {
         let pm = task.custom_fields[4].value ? task.custom_fields[4].value : false;
         
         
-        console.log(task.custom_fields.indexOf({
-            // id : `${epic_release_cf_id}`
-            id : `dccb4f61-d762-4403-b560-b452216e34d2`
-        }))
-        // console.log(parent_reviewer[0].id)
-        // console.log(parent_pm[0].id)
+        console.log(epic_release)
+        console.log(reviewer[0].id)
+        console.log(pm[0].id)
         
         
         let pointer = (task.parent) ? task.parent : false;
