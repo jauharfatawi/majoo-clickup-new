@@ -240,8 +240,8 @@ async function subtaskSync(payload) {
         
         
         console.log(epic_release)
-        console.log(reviewer[0].id)
-        console.log(pm[0].id)
+        console.log(reviewer[0])
+        console.log(pm[0])
         
         
         let pointer = (task.parent) ? task.parent : false;
