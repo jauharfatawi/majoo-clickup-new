@@ -256,19 +256,19 @@ async function subtaskSync(payload) {
         
         
         
-        // let pointer = (task.parent) ? task.parent : false;
+        let pointer = (task.parent) ? task.parent : false;
 
-        // let parent = await axios({
-        //         method: "GET",
-        //         url: `https://api.clickup.com/api/v2/task/${pointer}`
-        // });
-        // parent = parent.data
+        let parent = await axios({
+                method: "GET",
+                url: `https://api.clickup.com/api/v2/task/${pointer}`
+        });
+        parent = parent.data
             
-        // let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
-        // let parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
-        // let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
-        // let parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
-        // let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
+        let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
+        let parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
+        let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
+        let parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
+        let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
         
         console.log(parent_epic_release)
         console.log(parent_theme)
