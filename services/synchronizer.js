@@ -264,10 +264,10 @@ async function subtaskSync(payload) {
         parent = parent.data
 
         console.log(parent.custom_fields[51].value)
-        console.log(parent.custom_fields[64].value[0].id)
-        console.log(parent.custom_fields[71].value[0].id)
-        console.log(parent.custom_fields[57].value.id)
-        console.log(parent.custom_fields[66].value.id)
+        console.log(parent.custom_fields[64].value)
+        console.log(parent.custom_fields[71].value)
+        console.log(parent.custom_fields[57].value)
+        console.log(parent.custom_fields[66].value)
             
         let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
         let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
