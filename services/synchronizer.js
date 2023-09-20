@@ -262,6 +262,12 @@ async function subtaskSync(payload) {
                 url: `https://api.clickup.com/api/v2/task/${pointer}`
         });
         parent = parent.data
+
+        console.log(parent.custom_fields[51].value)
+        console.log(parent.custom_fields[64].value[0].id)
+        console.log(parent.custom_fields[71].value[0].id)
+        console.log(parent.custom_fields[57].value.id)
+        console.log(parent.custom_fields[66].value.id)
             
         let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
         let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
@@ -272,11 +278,7 @@ async function subtaskSync(payload) {
         let parent_quarter = parent.custom_fields[66].type_config.options[selected_parent_quarter] ? parent.custom_fields[66].type_config.options[selected_parent_quarter] : false;
         
         
-        console.log(parent_epic_release)
-        console.log(parent_reviewer[0].id)
-        console.log(parent_pm[0].id)
-        console.log(parent_quarter.id)
-        console.log(parent_theme.id)
+        
         
         
             if (parent_epic_release) {
