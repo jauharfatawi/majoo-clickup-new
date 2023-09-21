@@ -246,7 +246,6 @@ async function subtaskSync(payload) {
         });
         parent = parent.data
         
-        console.log(parent.custom_fields)
         
         // Set epic release from parent task
         let epic_release = await asyncFilter(parent.custom_fields, async (i) => {
@@ -264,11 +263,11 @@ async function subtaskSync(payload) {
             });
         }
 
-        //  // Set pm from parent task
-        // let pm = await asyncFilter(parent.custom_fields, async (i) => {
-        //     return i.id == pm_cf_id;
-        // });
-        // console.log(pm[0].value);
+         // Set pm from parent task
+        let pm = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == pm_cf_id;
+        });
+        console.log(pm);
         // if (typeof pm[0].value !== 'undefined' && pm[0].value) {
         //     console.log('YOOY');
         //     await axios({
