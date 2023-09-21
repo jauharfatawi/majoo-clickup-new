@@ -267,7 +267,7 @@ async function subtaskSync(payload) {
         let pm = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == pm_cf_id;
         });
-        console.log(pm);
+        console.log(pm[0].value);
         // if (typeof pm[0].value !== 'undefined' && pm[0].value) {
         //     console.log('YOOY');
         //     await axios({
