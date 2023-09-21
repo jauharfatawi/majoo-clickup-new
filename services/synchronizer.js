@@ -246,7 +246,7 @@ async function subtaskSync(payload) {
         });
         parent = parent.data
 
-        // Set epic release task from parent
+        // Set epic release from parent task
         let epic_release = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == epic_release_cf_id;
         });
@@ -262,36 +262,72 @@ async function subtaskSync(payload) {
             });
         }
 
-        
+         // Set pm from parent task
+        let pm = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == pm_cf_id;
+        });
+        console.log(pm[0].value);
+        if (typeof pm[0].value !== 'undefined' && pm[0].value) {
+            console.log('YOOY');
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
+                data: {
+                    "value": {add: [pm[0].value]}
+                }
+            });
+        }
 
-        // let epic_release = task.custom_fields[51].value ? task.custom_fields[51].value : false;
-        // let reviewer = task.custom_fields[64].value ? task.custom_fields[64].value : false;
-        // let pm = task.custom_fields[71].value ? task.custom_fields[71].value : false;
-        // let theme = task.custom_fields[57].value ? task.custom_fields[57].value : false;
-        // let quarter = task.custom_fields[66].value ? task.custom_fields[66].value : false;
-        
-        
-        
-        // console.log(task.custom_fields[51])
-        // console.log(task.custom_fields[57])
-        // console.log(task.custom_fields[64])
-        // console.log(task.custom_fields[66])
-        // console.log(task.custom_fields[71])
+         // Set reviewer from parent task
+        let reviewer = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == reviewer_cf_id;
+        });
+        console.log(reviewer[0].value);
+        if (typeof reviewer[0].value !== 'undefined' && reviewer[0].value) {
+            console.log('YUUY');
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
+                data: {
+                    "value": {add: [reviewer[0].value]}
+                }
+            });
+        }
 
-        // console.log(epic_release)
-        // console.log(reviewer)
-        // console.log(pm)
-        // console.log(theme)
-        // console.log(quarter)
         
-        
+         // Set quarter from parent task
+        let quarter = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == quarter_cf_id;
+        });
+        console.log(quarter[0].id);
+        if (typeof quarter[0].id !== 'undefined' && quarter[0].id) {
+            console.log('YAAY');
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+                data: {
+                    "value": quarter[0].id
+                }
+            });
+        }
 
-        // console.log(parent.custom_fields[51].value)
-        // console.log(parent.custom_fields[64].value)
-        // console.log(parent.custom_fields[71].value)
-        // console.log(parent.custom_fields[57].value)
-        // console.log(parent.custom_fields[66].value)
-            
+        // Set theme from parent task
+        let theme = await asyncFilter(theme.custom_fields, async (i) => {
+            return i.id == theme_cf_id;
+        });
+        console.log(quarter[0].id);
+        if (typeof theme[0].id !== 'undefined' && theme[0].id) {
+            console.log('YIIY');
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
+                data: {
+                    "value": theme[0].id
+                }
+            });
+        }
+
+        
         // let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
         // let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
         // let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
