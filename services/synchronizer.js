@@ -264,21 +264,21 @@ async function subtaskSync(payload) {
             });
         }
 
-         // Set pm from parent task
-        let pm = await asyncFilter(parent.custom_fields, async (i) => {
-            return i.id == pm_cf_id;
-        });
-        console.log(pm[0].value);
-        if (typeof pm[0].value !== 'undefined' && pm[0].value) {
-            console.log('YOOY');
-            await axios({
-                method: "POST",
-                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
-                data: {
-                    "value": {add: [pm[0].value]}
-                }
-            });
-        }
+        //  // Set pm from parent task
+        // let pm = await asyncFilter(parent.custom_fields, async (i) => {
+        //     return i.id == pm_cf_id;
+        // });
+        // console.log(pm[0].value);
+        // if (typeof pm[0].value !== 'undefined' && pm[0].value) {
+        //     console.log('YOOY');
+        //     await axios({
+        //         method: "POST",
+        //         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
+        //         data: {
+        //             "value": {add: [pm[0].value]}
+        //         }
+        //     });
+        // }
 
         //  // Set reviewer from parent task
         // let reviewer = await asyncFilter(parent.custom_fields, async (i) => {
