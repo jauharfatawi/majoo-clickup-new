@@ -300,7 +300,8 @@ async function subtaskSync(payload) {
         let quarter = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == quarter_cf_id;
         });
-        console.log(quarter[0].value);
+        // quarter = quarter[0].type_config.options[quarter[0].value]
+        console.log(quarter[0].type_config.options[quarter[0].value]);
         // if (typeof quarter[0].value !== 'undefined' && quarter[0].value) {
         //     console.log('YAAY');
         //     await axios({
@@ -316,7 +317,8 @@ async function subtaskSync(payload) {
         let theme = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == theme_cf_id;
         });
-        console.log(theme[0].value);
+        // theme = theme[0].type_config.options[theme[0].value]
+        console.log(theme[0].type_config.options[theme[0].value]);
         // if (typeof theme[0].value[0].id !== 'undefined' && theme[0].value[0].id) {
         //     console.log('YIIY');
         //     await axios({
