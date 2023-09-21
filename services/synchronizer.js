@@ -299,8 +299,8 @@ async function subtaskSync(payload) {
         let quarter = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == quarter_cf_id;
         });
-        console.log(quarter[0].id);
-        if (typeof quarter[0].id !== 'undefined' && quarter[0].id) {
+        console.log(quarter[0].value.id);
+        if (typeof quarter[0].value.id !== 'undefined' && quarter[0].id) {
             console.log('YAAY');
             await axios({
                 method: "POST",
