@@ -301,29 +301,29 @@ async function subtaskSync(payload) {
             return i.id == quarter_cf_id;
         });
         console.log(quarter[0].value);
-        if (typeof quarter[0].value !== 'undefined' && quarter[0].value) {
-            console.log('YAAY');
-            await axios({
-                method: "POST",
-                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
-                data: {
-                    "value": quarter[0].value[0].id
-                }
-            });
-        }
+        // if (typeof quarter[0].value !== 'undefined' && quarter[0].value) {
+        //     console.log('YAAY');
+        //     await axios({
+        //         method: "POST",
+        //         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+        //         data: {
+        //             "value": quarter[0].value[0].id
+        //         }
+        //     });
+        // }
 
-        // // Set theme from parent task
-        // let theme = await asyncFilter(theme.custom_fields, async (i) => {
-        //     return i.id == theme_cf_id;
-        // });
-        // console.log(quarter[0].id);
-        // if (typeof theme[0].id !== 'undefined' && theme[0].id) {
+        // Set theme from parent task
+        let theme = await asyncFilter(theme.custom_fields, async (i) => {
+            return i.id == theme_cf_id;
+        });
+        console.log(quarter[0].value);
+        // if (typeof theme[0].value[0].id !== 'undefined' && theme[0].value[0].id) {
         //     console.log('YIIY');
         //     await axios({
         //         method: "POST",
         //         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
         //         data: {
-        //             "value": theme[0].id
+        //             "value": theme[0].value[0].id
         //         }
         //     });
         // }
