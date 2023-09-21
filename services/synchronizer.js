@@ -238,7 +238,7 @@ async function subtaskSync(payload) {
     try {
         let task = payload
         let parent = (task.parent) ? task.parent : false;
-        if (!parent) return 'OK'
+        if (!parent) return 'NO'
 
         parent = await axios({
             method: "GET",
@@ -250,12 +250,14 @@ async function subtaskSync(payload) {
         let epic_release = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == epic_release_cf_id;
         });
-        if (typeof epic_release.value !== 'undefined' && epic_release.value) {
+        console.log(epic_release[0].value);
+        if (typeof epic_release[0].value !== 'undefined' && epic_release[0].value) {
+            console.log('YEEY');
             await axios({
                 method: "POST",
                 url: `https://api.clickup.com/api/v2/task/${task.id}/field/${epic_release_cf_id}`,
                 data: {
-                    "value": epic_release.value
+                    "value": epic_release[0].value
                 }
             });
         }
