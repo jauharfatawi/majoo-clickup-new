@@ -118,11 +118,12 @@ async function relationSync(payload) {
         let start_date = moment.unix(task.start_date) || false;
 
         let custom_fields = task.custom_fields;
+        // filter by custom field id
         let pointers = await asyncFilter(custom_fields, async (i) => {
             return i.id == ideation_field_id;
         });
 
-        if (typeof pointers.value == 'undefined') return 'OK';        
+        if (typeof pointers.value == 'undefined') return 'OK';
 
         for (let pointer of pointers.value) {
             let parent = await axios({
@@ -236,11 +237,37 @@ async function counterFeedbackProd(payload) {
 async function subtaskSync(payload) {
     try {
         let task = payload
-        let epic_release = task.custom_fields[51].value ? task.custom_fields[51].value : false;
-        let reviewer = task.custom_fields[64].value ? task.custom_fields[64].value : false;
-        let pm = task.custom_fields[71].value ? task.custom_fields[71].value : false;
-        let theme = task.custom_fields[57].value ? task.custom_fields[57].value : false;
-        let quarter = task.custom_fields[66].value ? task.custom_fields[66].value : false;
+        let parent = (task.parent) ? task.parent : false;
+        if (!parent) return 'OK'
+
+        parent = await axios({
+            method: "GET",
+            url: `https://api.clickup.com/api/v2/task/${parent}`
+        });
+        parent = parent.data
+
+        // Set epic release task from parent
+        let epic_release = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == epic_release_cf_id;
+        });
+        if (typeof epic_release.value !== 'undefined' && epic_release.value) {
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${epic_release_cf_id}`,
+                data: {
+                    "value": epic_release.value
+                }
+            });
+        }
+
+        
+
+        // let epic_release = task.custom_fields[51].value ? task.custom_fields[51].value : false;
+        // let reviewer = task.custom_fields[64].value ? task.custom_fields[64].value : false;
+        // let pm = task.custom_fields[71].value ? task.custom_fields[71].value : false;
+        // let theme = task.custom_fields[57].value ? task.custom_fields[57].value : false;
+        // let quarter = task.custom_fields[66].value ? task.custom_fields[66].value : false;
+        
         
         
         // console.log(task.custom_fields[51])
@@ -249,97 +276,91 @@ async function subtaskSync(payload) {
         // console.log(task.custom_fields[66])
         // console.log(task.custom_fields[71])
 
-        console.log(epic_release)
-        console.log(reviewer)
-        console.log(pm)
-        console.log(theme)
-        console.log(quarter)
+        // console.log(epic_release)
+        // console.log(reviewer)
+        // console.log(pm)
+        // console.log(theme)
+        // console.log(quarter)
         
-        let pointer = (task.parent) ? task.parent : false;
+        
 
-        let parent = await axios({
-                method: "GET",
-                url: `https://api.clickup.com/api/v2/task/${pointer}`
-        });
-        parent = parent.data
-
-        console.log(parent.custom_fields[51].value)
-        console.log(parent.custom_fields[64].value)
-        console.log(parent.custom_fields[71].value)
-        console.log(parent.custom_fields[57].value)
-        console.log(parent.custom_fields[66].value)
+        // console.log(parent.custom_fields[51].value)
+        // console.log(parent.custom_fields[64].value)
+        // console.log(parent.custom_fields[71].value)
+        // console.log(parent.custom_fields[57].value)
+        // console.log(parent.custom_fields[66].value)
             
-        let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
-        let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
-        let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
-        let selected_parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
-        let parent_theme = parent.custom_fields[57].type_config.options[selected_parent_theme] ? parent.custom_fields[57].type_config.options[selected_parent_theme] : false;
-        let selected_parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
-        let parent_quarter = parent.custom_fields[66].type_config.options[selected_parent_quarter] ? parent.custom_fields[66].type_config.options[selected_parent_quarter] : false;
+        // let parent_epic_release = parent.custom_fields[51].value ? parent.custom_fields[51].value : false;
+        // let parent_reviewer = parent.custom_fields[64].value ? parent.custom_fields[64].value : false;
+        // let parent_pm = parent.custom_fields[71].value ? parent.custom_fields[71].value : false;
+        // let selected_parent_theme = parent.custom_fields[57].value ? parent.custom_fields[57].value : false;
+        // let parent_theme = parent.custom_fields[57].type_config.options[selected_parent_theme] ? parent.custom_fields[57].type_config.options[selected_parent_theme] : false;
+        // let selected_parent_quarter = parent.custom_fields[66].value ? parent.custom_fields[66].value : false;
+        // let parent_quarter = parent.custom_fields[66].type_config.options[selected_parent_quarter] ? parent.custom_fields[66].type_config.options[selected_parent_quarter] : false;
         
         
         
         
         
-            if (parent_epic_release) {
-                    epic_release = parent_epic_release
+        //     if (parent_epic_release) {
+        //             epic_release = parent_epic_release
                     
-                await axios({
-                    method: "POST",
-                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${epic_release_cf_id}`,
-                    data: {
-                        "value": epic_release
-                    }
-                });
-            }
+        //         await axios({
+        //             method: "POST",
+        //             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${epic_release_cf_id}`,
+        //             data: {
+        //                 "value": epic_release
+        //             }
+        //         });
+        //     }
         
-            if (parent_reviewer) {
-                reviewer = parent_reviewer[0].id
+        //     if (parent_reviewer) {
+        //         reviewer = parent_reviewer[0].id
 
-                await axios({
-                    method: "POST",
-                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
-                    data: {
-                        "value": {add: [reviewer]}
-                    }
-                });
-            }
+        //         await axios({
+        //             method: "POST",
+        //             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
+        //             data: {
+        //                 "value": {add: [reviewer]}
+        //             }
+        //         });
+        //     }
 
-            if (parent_pm) {
-                pm = parent_pm[0].id
+        //     if (parent_pm) {
+        //         pm = parent_pm[0].id
                 
-                await axios({
-                    method: "POST",
-                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
-                    data: {
-                        "value": {add: [pm]}
-                    }
-                });
-            }
+        //         await axios({
+        //             method: "POST",
+        //             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${pm_cf_id}`,
+        //             data: {
+        //                 "value": {add: [pm]}
+        //             }
+        //         });
+        //     }
 
-            if (parent_theme) {
-                theme = parent_theme
+        //     if (parent_theme) {
+        //         theme = parent_theme
                 
-                await axios({
-                    method: "POST",
-                    url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
-                    data: {
-                        "value": theme.id
-                    }
-                });
-            }
+        //         await axios({
+        //             method: "POST",
+        //             url: `https://api.clickup.com/api/v2/task/${task.id}/field/${theme_cf_id}`,
+        //             data: {
+        //                 "value": theme.id
+        //             }
+        //         });
+        //     }
         
-            if (parent_quarter) {
-                quarter = parent_quarter
+        //     if (parent_quarter) {
+        //         quarter = parent_quarter
                 
-                await axios({
-                    method: "POST",
-                        url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
-                    data: {
-                        "value": quarter.id
-                    }
-                });
-            }
+        //         await axios({
+        //             method: "POST",
+        //                 url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+        //             data: {
+        //                 "value": quarter.id
+        //             }
+        //         });
+        //     }
         
         return 'OK'
     } catch (error) {
