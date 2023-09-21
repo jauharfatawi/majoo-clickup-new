@@ -284,33 +284,33 @@ async function subtaskSync(payload) {
             return i.id == reviewer_cf_id;
         });
         console.log(reviewer[0].value);
-        if (typeof reviewer[0].value !== 'undefined' && reviewer[0].value) {
-            console.log('YUUY');
-            await axios({
-                method: "POST",
-                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
-                data: {
-                    "value": {add: [reviewer[0].value[0].id]}
-                }
-            });
-        }
-
-        
-        //  // Set quarter from parent task
-        // let quarter = await asyncFilter(parent.custom_fields, async (i) => {
-        //     return i.id == quarter_cf_id;
-        // });
-        // console.log(quarter[0].value.id);
-        // if (typeof quarter[0].value.id !== 'undefined' && quarter[0].id) {
-        //     console.log('YAAY');
+        // if (typeof reviewer[0].value !== 'undefined' && reviewer[0].value) {
+        //     console.log('YUUY');
         //     await axios({
         //         method: "POST",
-        //         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+        //         url: `https://api.clickup.com/api/v2/task/${task.id}/field/${reviewer_cf_id}`,
         //         data: {
-        //             "value": quarter[0].id
+        //             "value": {add: [reviewer[0].value[0].id]}
         //         }
         //     });
         // }
+
+        
+         // Set quarter from parent task
+        let quarter = await asyncFilter(parent.custom_fields, async (i) => {
+            return i.id == quarter_cf_id;
+        });
+        console.log(quarter[0].value);
+        if (typeof quarter[0].value !== 'undefined' && quarter[0].value) {
+            console.log('YAAY');
+            await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${task.id}/field/${quarter_cf_id}`,
+                data: {
+                    "value": quarter[0].value[0].id
+                }
+            });
+        }
 
         // // Set theme from parent task
         // let theme = await asyncFilter(theme.custom_fields, async (i) => {
