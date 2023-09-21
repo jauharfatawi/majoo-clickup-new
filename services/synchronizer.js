@@ -301,7 +301,7 @@ async function subtaskSync(payload) {
             return i.id == quarter_cf_id;
         });
         console.log(quarter[0].type_config.options[quarter[0].value].id);
-        if (typeof quarter[0].value !== 'undefined' && quarter[0].value) {
+        if (typeof quarter[0].type_config.options[quarter[0].value].id !== 'undefined' && quarter[0].type_config.options[quarter[0].value].id) {
             console.log('YAAY');
             await axios({
                 method: "POST",
@@ -317,7 +317,7 @@ async function subtaskSync(payload) {
             return i.id == theme_cf_id;
         });
         console.log(theme[0].type_config.options[theme[0].value].id);
-        if (typeof theme[0].value[0].id !== 'undefined' && theme[0].value[0].id) {
+        if (typeof theme[0].type_config.options[theme[0].value].id !== 'undefined' && theme[0].type_config.options[theme[0].value].id) {
             console.log('YIIY');
             await axios({
                 method: "POST",
