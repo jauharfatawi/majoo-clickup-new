@@ -313,7 +313,7 @@ async function subtaskSync(payload) {
         // }
 
         // Set theme from parent task
-        let theme = await asyncFilter(theme.custom_fields, async (i) => {
+        let theme = await asyncFilter(parent.custom_fields, async (i) => {
             return i.id == theme_cf_id;
         });
         console.log(theme[0].value);
