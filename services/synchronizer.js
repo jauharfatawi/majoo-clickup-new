@@ -197,7 +197,7 @@ async function counterFeedbackStaging(payload) {
         let counter = await asyncFilter(task.custom_fields, async (i) => {
             return i.id == feedback_stg_cf_id;
         });
-        console.log(counter[0].value);
+        console.log(counter);
         
         await axios({
             method: "POST",
