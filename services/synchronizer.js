@@ -192,7 +192,12 @@ async function relationSync(payload) {
 async function counterFeedbackStaging(payload) {
     try {
         let task = payload
-        let counter = task.custom_fields[1].value ? task.custom_fields[1].value : 0;
+        // let counter = task.custom_fields[1].value ? task.custom_fields[1].value : 0;
+
+        let counter = await asyncFilter(task.custom_fields, async (i) => {
+            return i.id == feedback_stg_cf_id;
+        });
+        console.log(counter[0].value);
         
         await axios({
             method: "POST",
@@ -214,7 +219,12 @@ async function counterFeedbackStaging(payload) {
 async function counterFeedbackProd(payload) {
     try {
         let task = payload
-        let counter = task.custom_fields[2].value ? task.custom_fields[2].value : 0;
+        // let counter = task.custom_fields[2].value ? task.custom_fields[2].value : 0;
+        
+        let counter = await asyncFilter(task.custom_fields, async (i) => {
+            return i.id == feedback_prod_cf_id;
+        });
+        console.log(counter[0].value);
         
         await axios({
             method: "POST",
