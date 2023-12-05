@@ -52,18 +52,34 @@ async function dateSync(payload, type) {
             
             if (parent_due_date && parent_due_date > due_date && parent_due_date.unix() > 0) {
                 due_date = parent_due_date
-            }
-            if (parent_start_date && parent_start_date < start_date && parent_start_date.unix() > 0) {
-                start_date = parent_start_date
-            }
-            
-            let cf_updated = await axios({
+
+                let cf_updated = await axios({
                 method: "POST",
                 url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
                 data: {
                     "value": 1
                 }
             });
+            }
+            if (parent_start_date && parent_start_date < start_date && parent_start_date.unix() > 0) {
+                start_date = parent_start_date
+
+                let cf_updated = await axios({
+                method: "POST",
+                url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
+                data: {
+                    "value": 1
+                }
+            });
+            }
+            
+            // let cf_updated = await axios({
+            //     method: "POST",
+            //     url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
+            //     data: {
+            //         "value": 1
+            //     }
+            // });
             
             if (cf_updated) {
                 let date_payload = {};
