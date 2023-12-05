@@ -49,39 +49,21 @@ async function dateSync(payload, type) {
 
             let duration_start_date = (parent_start_date) ? moment.duration(parent_start_date.diff(start_date)).asDays() : false;
             let duration_due_date = (parent_due_date) ? moment.duration(parent_due_date.diff(due_date)).asDays() : false;
-
-            let cf_updated();
             
             if (parent_due_date && parent_due_date > due_date && parent_due_date.unix() > 0) {
                 due_date = parent_due_date
-
-                let cf_updated = await axios({
-                method: "POST",
-                url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
-                data: {
-                    "value": 1
-                }
-            });
             }
             if (parent_start_date && parent_start_date < start_date && parent_start_date.unix() > 0) {
                 start_date = parent_start_date
-
-                let cf_updated = await axios({
+            }
+            
+            let cf_updated = await axios({
                 method: "POST",
                 url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
                 data: {
                     "value": 1
                 }
             });
-            }
-            
-            // let cf_updated = await axios({
-            //     method: "POST",
-            //     url: `https://api.clickup.com/api/v2/task/${pointer}/field/${webhook_cf_id}`,
-            //     data: {
-            //         "value": 1
-            //     }
-            // });
             
             if (cf_updated) {
                 let date_payload = {};
