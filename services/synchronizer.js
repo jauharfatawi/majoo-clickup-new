@@ -49,6 +49,8 @@ async function dateSync(payload, type) {
 
             let duration_start_date = (parent_start_date) ? moment.duration(parent_start_date.diff(start_date)).asDays() : false;
             let duration_due_date = (parent_due_date) ? moment.duration(parent_due_date.diff(due_date)).asDays() : false;
+
+            let cf_updated();
             
             if (parent_due_date && parent_due_date > due_date && parent_due_date.unix() > 0) {
                 due_date = parent_due_date
