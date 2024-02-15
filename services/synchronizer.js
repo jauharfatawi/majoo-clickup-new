@@ -357,7 +357,7 @@ async function autoCompleteStatus(payload) {
         let task = payload
         
         let task_status = task.status.status || false;
-        let linked_card = task.linked_tasks[0].task_id || false;
+        let linked_card = task.linked_tasks[0].link_id || false;
 
         console.log(task_status)
         console.log(linked_card)
