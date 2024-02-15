@@ -357,7 +357,7 @@ async function autoCompleteStatus(payload) {
         let task = payload
         
         let task_status = task.status.status || false;
-        let dependency_card = task.dependencies[0] || false;
+        let dependency_card = task.dependencies || false;
 
         console.log(task_status)
         console.log(dependency_card)
