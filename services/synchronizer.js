@@ -362,17 +362,17 @@ async function autoCompleteStatus(payload) {
         console.log(task_status)
         console.log(linked_card)
 
-        // if(task_status == "complete"){
-        //     //ubah status card dependency menjadi DONE
-        //     console.log('ubah status card dependency (https://app.clickup.com/t/'+linked_card+') menjadi DONE');
-        //     await axios({
-        //         method: "PUT",
-        //         url: `https://api.clickup.com/api/v2/task/${linked_card}`,
-        //         data: {
-        //             "status": "done"
-        //         }
-        //     });
-        // }
+        if(task_status == "complete"){
+            //ubah status card dependency menjadi DONE
+            console.log('ubah status card dependency (https://app.clickup.com/t/'+linked_card+') menjadi DONE');
+            await axios({
+                method: "PUT",
+                url: `https://api.clickup.com/api/v2/task/${linked_card}`,
+                data: {
+                    "status": "done"
+                }
+            });
+        }
         
         return 'OK'
     } catch (error) {
