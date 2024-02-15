@@ -351,10 +351,42 @@ async function subtaskSync(payload) {
     }
 }
 
+// untuk otomatisasi status card feedback enterprise menjadi DONE ketika card developmnent telah COMPLETE
+async function autoCompleteStatus(payload) {
+    try {
+        let task = payload
+        
+        let task_status = task.status.status || false;
+        let dependency_card = task.dependencies.task_id || false;
+
+        console.log(task_status)
+        console.log(dependency_card)
+
+        if(task_status == "complete"){
+            //ubah status card dependency menjadi DONE
+            console.log('ubah status card dependency (https://app.clickup.com/t/'+dependency_card+') menjadi DONE');
+            await axios({
+                method: "PUT",
+                url: `https://api.clickup.com/api/v2/task/${dependency_card}`,
+                data: {
+                    "status": "done"
+                }
+            });
+        }
+        
+        return 'OK'
+    } catch (error) {
+        console.log("====== Start Err ClickUp =====")
+        console.log(error)
+        console.log("====== End Err ClickUp =====")
+    }
+}
+
 module.exports = {
     dateSync,
     relationSync,
     counterFeedbackStaging,
     counterFeedbackProd,
-    subtaskSync
+    subtaskSync,
+    autoCompleteStatus
 }
